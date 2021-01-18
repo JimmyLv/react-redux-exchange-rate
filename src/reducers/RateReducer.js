@@ -6,7 +6,7 @@ const initialState = {
   rates: {
     USD: 1.0,
   },
-  supportedSymbols: ["USD", "EUR", "JPY", "CAD", "GBP", "MXN"],
+  supportedSymbols: ["CNY", "USD", "EUR", "JPY", "CAD", "GBP", "MXN"],
 };
 
 export function rateReducer(state = initialState, action) {
