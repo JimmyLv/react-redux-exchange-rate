@@ -1,4 +1,10 @@
-export function RateTable({ currencyData, amount }) {
+import { useSelector } from "react-redux";
+import { getAmount, getCurrencyData } from "../store";
+
+export function RateTable() {
+  const amount = useSelector(getAmount);
+  const currencyData = useSelector(getCurrencyData);
+
   return (
     <table className="ExchangeRate-table">
       <tbody>

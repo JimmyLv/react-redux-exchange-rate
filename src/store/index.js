@@ -1,4 +1,15 @@
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
+import { getExchangeRates } from "../api";
+export const supportedCurrencies = [
+  "CNY",
+  "USD",
+  "EUR",
+  "JPY",
+  "CAD",
+  "GBP",
+  "MXN",
+];
 
 // state
 const initialState = {
@@ -20,6 +31,11 @@ function rateReducer(state = initialState, action) {
         ...state,
         currencyCode: action.payload,
       };
+    case UPDATE_CURRENCY_DATA:
+      return {
+        ...state,
+        currencyData: action.payload,
+      };
     default:
       return state;
   }
@@ -28,6 +44,7 @@ function rateReducer(state = initialState, action) {
 // actions
 const UPDATE_AMOUNT = "updateAmount";
 const UPDATE_CURRENCY_CODE = "updateCurrencyCode";
+const UPDATE_CURRENCY_DATA = "updateCurrencyData";
 
 export function updateAmount(amount) {
   return {
@@ -43,10 +60,23 @@ export function updateCurrencyCode(amount) {
   };
 }
 
+export function updateCurrencyData() {
+  return (dispatch, getState) => {
+    const state = getState();
+    getExchangeRates(state.currencyCode, supportedCurrencies).then((rates) => {
+      dispatch({
+        type: UPDATE_CURRENCY_DATA,
+        payload: rates,
+      });
+    });
+  };
+}
+
 // selectors
 export const getAmount = (state) => state.amountNumber;
 export const getCurrencyCode = (state) => state.currencyCode;
+export const getCurrencyData = (state) => state.currencyData;
 
-const store = createStore(rateReducer);
+const store = createStore(rateReducer, applyMiddleware(thunk));
 
 export default store;
