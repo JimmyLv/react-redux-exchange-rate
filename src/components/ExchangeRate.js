@@ -1,22 +1,16 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getExchangeRates } from '../api'
-import { getAmount, updateAmount } from '../store'
-import { AmountField } from './AmountField'
-import { CurrencyCodePicker } from './CurrencyCodePicker'
-import { RateTable } from './RateTable'
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getExchangeRates } from "../api";
+import { getAmount, getCurrencyCode, updateAmount } from "../store";
+import { AmountField } from "./AmountField";
+import { CurrencyCodePicker } from "./CurrencyCodePicker";
+import { RateTable } from "./RateTable";
 
 const supportedCurrencies = ["CNY", "USD", "EUR", "JPY", "CAD", "GBP", "MXN"];
 
 export function ExchangeRate() {
-  const dispatch = useDispatch();
   const amount = useSelector(getAmount);
-
-  function setAmount(amount) {
-    dispatch(updateAmount(amount));
-  }
-
-  const [currencyCode, setCurrencyCode] = useState("USD");
+  const currencyCode = useSelector(getCurrencyCode);
 
   const [currencyData, setCurrencyData] = useState({ USD: 1.0 });
 
@@ -27,16 +21,6 @@ export function ExchangeRate() {
     });
   }, [currencyCode]);
 
-  const handleCurrencyCode = useCallback(
-    (e) => setCurrencyCode(e.target.value),
-    []
-  );
-
-  const handleAmountChange = useCallback((e) => {
-    let newAmount = e.target.value;
-    setAmount(newAmount);
-  }, []);
-
   return (
     <>
       <section>
@@ -45,12 +29,11 @@ export function ExchangeRate() {
           <CurrencyCodePicker
             supportedCurrencies={supportedCurrencies}
             currencyCode={currencyCode}
-            onChange={handleCurrencyCode}
           />
         </h1>
       </section>
       <section>
-        <AmountField amount={amount} onChange={handleAmountChange} />
+        <AmountField />
       </section>
       <section>
         <RateTable currencyData={currencyData} amount={amount} />

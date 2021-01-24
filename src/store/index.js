@@ -3,6 +3,7 @@ import { createStore } from "redux";
 // state
 const initialState = {
   amountNumber: "1.50",
+  currencyCode: "CNY",
 };
 
 // reducers
@@ -13,11 +14,18 @@ function rateReducer(state = initialState, action) {
       amountNumber: action.payload,
     };
   }
+  if (action.type === UPDATE_CURRENCY_CODE) {
+    return {
+      ...state,
+      currencyCode: action.payload,
+    };
+  }
   return state;
 }
 
 // actions
 const UPDATE_AMOUNT = "updateAmount";
+const UPDATE_CURRENCY_CODE = "updateCurrencyCode";
 
 export function updateAmount(amount) {
   return {
@@ -26,8 +34,16 @@ export function updateAmount(amount) {
   };
 }
 
+export function updateCurrencyCode(amount) {
+  return {
+    type: UPDATE_CURRENCY_CODE,
+    payload: amount,
+  };
+}
+
 // selectors
 export const getAmount = (state) => state.amountNumber;
+export const getCurrencyCode = (state) => state.currencyCode;
 
 const store = createStore(rateReducer);
 
