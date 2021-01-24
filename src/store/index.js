@@ -1,24 +1,34 @@
 import { createStore } from "redux";
 
+// state
 const initialState = {
-  amount: "1.50",
+  amountNumber: "1.50",
 };
 
+// reducers
 function rateReducer(state = initialState, action) {
-  if (action.type === "updateAmount") {
+  if (action.type === UPDATE_AMOUNT) {
     return {
       ...state,
-      amount: action.payload,
+      amountNumber: action.payload,
     };
   }
   return state;
 }
 
-const store = createStore(rateReducer);
+// actions
+const UPDATE_AMOUNT = "updateAmount";
 
-store.subscribe(() => {
-  const state = store.getState();
-  console.log("state", state);
-});
+export function updateAmount(amount) {
+  return {
+    type: UPDATE_AMOUNT,
+    payload: amount,
+  };
+}
+
+// selectors
+export const getAmount = (state) => state.amountNumber;
+
+const store = createStore(rateReducer);
 
 export default store;
