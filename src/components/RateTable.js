@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { getAmount, getCurrencyData } from "../store";
+import { getAmount, getCurrencyData } from "../store/rate";
 
 export function RateTable() {
   const amount = useSelector(getAmount);

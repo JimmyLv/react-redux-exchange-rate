@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { getAmount, updateAmount } from '../store'
+import { useDispatch, useSelector } from "react-redux";
+import { getAmount, updateAmount } from "../store/rate";
 
 export function AmountField() {
   const dispatch = useDispatch();
