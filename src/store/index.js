@@ -4,23 +4,25 @@ import { createStore } from "redux";
 const initialState = {
   amountNumber: "1.50",
   currencyCode: "CNY",
+  currencyData: { USD: 1.0 },
 };
 
 // reducers
 function rateReducer(state = initialState, action) {
-  if (action.type === UPDATE_AMOUNT) {
-    return {
-      ...state,
-      amountNumber: action.payload,
-    };
+  switch (action.type) {
+    case UPDATE_AMOUNT:
+      return {
+        ...state,
+        amountNumber: action.payload,
+      };
+    case UPDATE_CURRENCY_CODE:
+      return {
+        ...state,
+        currencyCode: action.payload,
+      };
+    default:
+      return state;
   }
-  if (action.type === UPDATE_CURRENCY_CODE) {
-    return {
-      ...state,
-      currencyCode: action.payload,
-    };
-  }
-  return state;
 }
 
 // actions
